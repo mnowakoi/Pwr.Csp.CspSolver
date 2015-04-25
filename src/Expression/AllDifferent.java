@@ -20,7 +20,7 @@ public class AllDifferent implements Expression {
         this.argsList = argsList;
     }
 
-    public int interpret(Map<String, Variable> variables)  {
+    public Integer interpret(Map<String, Variable> variables)  {
         HashSet<Integer> values = new HashSet<>();
         for(Expression expression : argsList)
         {

@@ -5,12 +5,12 @@ import CspProblem.Variable;
 import java.util.Map;
 
 /**
- * Created by Monis on 4/19/15.
+ * Created by Monis on 4/26/15.
  */
-class VariableReference implements Expression {
+public class StringVariableReference implements Expression {
     private String name;
 
-    public VariableReference(String name)       { this.name = name; }
+    public StringVariableReference(String name)       { this.name = name; }
 
     public Integer interpret(Map<String, Variable> variables)  {
         return variables.get(name).getValue();

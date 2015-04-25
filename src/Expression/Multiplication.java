@@ -15,7 +15,7 @@ public class Multiplication implements Expression{
         rightOperand = right;
     }
 
-    public int interpret(Map<String, Variable> variables)  {
+    public Integer interpret(Map<String, Variable> variables)  {
         return leftOperand.interpret(variables) * rightOperand.interpret(variables);
     }
 }

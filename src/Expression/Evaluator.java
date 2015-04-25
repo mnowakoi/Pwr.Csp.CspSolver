@@ -11,10 +11,8 @@ import java.util.*;
 public class Evaluator implements Expression {
     private Expression syntaxTree;
     private ArrayList<String> syntaxVariables;
-    private boolean isDiffType;
 
     public Evaluator(String expression) {
-        this.isDiffType = false;
         this.syntaxVariables = new ArrayList<>();
         Stack<Expression> expressionStack = new Stack<>();
         for (String token : expression.split(" "))
@@ -67,7 +65,6 @@ public class Evaluator implements Expression {
                 expressionStack.push( subExpression );
             }
             else if (token.equals("rozne")) {
-                  this.isDiffType = true;
                   int count = expressionStack.pop().interpret(new HashMap<>());
                   ArrayList<Expression> variablesList = new ArrayList<>();
                   for(int i = 0; i < count; i++)
@@ -87,7 +84,7 @@ public class Evaluator implements Expression {
         syntaxTree = expressionStack.pop();
     }
 
-    public int interpret(Map<String, Variable> context)
+    public Integer interpret(Map<String, Variable> context)
     {
       //  if(!isDiffType)
       //  {

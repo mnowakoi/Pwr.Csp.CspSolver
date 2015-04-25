@@ -13,7 +13,7 @@ public class Absolute implements Expression {
         leftOperand = left;
     }
 
-    public int interpret(Map<String, Variable> variables)  {
+    public Integer interpret(Map<String, Variable> variables)  {
         int interpretedValue = leftOperand.interpret(variables);
         return interpretedValue > 0 ? interpretedValue : -interpretedValue;
     }

@@ -15,7 +15,7 @@ public class Lower implements Expression {
         rightOperand = right;
     }
 
-    public int interpret(Map<String, Variable> variables)  {
+    public Integer interpret(Map<String, Variable> variables)  {
         return leftOperand.interpret(variables) < rightOperand.interpret(variables) ? 1 : 0;
     }
 }

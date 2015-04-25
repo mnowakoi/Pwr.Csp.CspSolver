@@ -16,7 +16,7 @@ public class Inequal implements Expression {
         rightOperand = right;
     }
 
-    public int interpret(Map<String, Variable> variables)  {
+    public Integer interpret(Map<String, Variable> variables)  {
         if (leftOperand.interpret(variables)==-1 || rightOperand.interpret(variables)==-1) return 1;
         return leftOperand.interpret(variables) != rightOperand.interpret(variables) ? 1 : 0;
     }
