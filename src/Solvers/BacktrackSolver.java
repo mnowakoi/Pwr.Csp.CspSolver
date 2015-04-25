@@ -74,12 +74,12 @@ public class BacktrackSolver {
             if(problem.checkConstraints()) {
                 if (problem.variables.length - 1 == nextIndex)
                 {
-                    //TODO: spisywanie do pliku
-                    for(String variable : problem.variables)
-                    {
-                        System.out.println("Wartosc " + variable + " " + problem.variablesMap.get(variable).getValue());
-                    }
-                    System.out.println();
+//                    //TODO: spisywanie do pliku
+//                    for(String variable : problem.variables)
+//                    {
+//                        System.out.println("Wartosc " + variable + " " + problem.variablesMap.get(variable).getValue());
+//                    }
+//                    System.out.println();
                     this.countOfSolutions++;
                     if(!nextVariable.hasNextDomainValue()) {
                         nextVariable.setValue(null);

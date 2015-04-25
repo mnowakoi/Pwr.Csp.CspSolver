@@ -44,11 +44,16 @@ public class Variable {
 
     public boolean hasNextDomainValue()
     {
-        return (this.value==null && this.domain.size() > 0) || (this.value != null && this.value != this.domain.get(this.domain.size()-1));
+        return (this.value==null && this.domain.size() > 0) ||
+                (this.value != null && this.value != this.domain.get(this.domain.size()-1));
     }
 
     public void setNextDomainValue()
     {
         this.value = this.domain.get(this.domain.indexOf(value)+1);
     }
+
+    public void deleteFromDomain(Integer elemIndex) { this.domain.remove(elemIndex); }
+
+    public void addToDomain(int value) { this.domain.add(value); }
 }

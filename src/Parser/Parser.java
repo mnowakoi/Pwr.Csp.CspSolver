@@ -15,11 +15,16 @@ import java.util.Scanner;
  * Created by Monis on 4/17/15.
  */
 public class Parser {
-    String path = "/Users/Monis/IdeaProjects/Pwr.Csp.CspSolver/src/ProblemSamples/BasicProblem.Txt";
+    String path = "/Users/Monis/IdeaProjects/Pwr.Csp.CspSolver/src/ProblemSamples/";
 
     public Parser()
     {
-        //Path path
+        this.path = "/Users/Monis/IdeaProjects/Pwr.Csp.CspSolver/src/ProblemSamples/BasicProblem.Txt";
+    }
+
+    public Parser(String fileName)
+    {
+        this.path = this.path + fileName;
     }
 
     public CspProblem parseProblem() throws FileNotFoundException
