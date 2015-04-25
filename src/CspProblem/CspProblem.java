@@ -28,4 +28,13 @@ public class CspProblem {
         }
         return true;
     }
+
+    public boolean addEvaluatorsToVariables()
+    {
+        for(Evaluator evaluator : stackMachine.constraintList)
+        {
+            evaluator.addReferenceToVariable(variablesMap);
+        }
+        return true;
+    }
 }

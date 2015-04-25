@@ -1,5 +1,9 @@
 package CspProblem;
 
+import Expression.Evaluator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,24 +13,17 @@ public class Variable {
     private String name;
     private List<Integer> domain;
     private Integer value;
+    private ArrayList<Evaluator> evaluators;
 
     public Variable(String name)
     {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
+        this.evaluators = new ArrayList<>();
     }
 
     public void setDomain(List<Integer> domain)
     {
         this.domain = domain;
-    }
-
-    public List<Integer> getDomain()
-    {
-        return domain;
     }
 
     public void setValue(Integer value) {
@@ -35,11 +32,6 @@ public class Variable {
 
     public Integer getValue() {
         return value;
-    }
-
-    public boolean hasValue()
-    {
-        return this.value!=null;
     }
 
     public boolean hasNextDomainValue()
@@ -56,4 +48,18 @@ public class Variable {
     public void deleteFromDomain(Integer elemIndex) { this.domain.remove(elemIndex); }
 
     public void addToDomain(int value) { this.domain.add(value); }
+
+    public void addEvaluator(Evaluator evaluator)
+    {
+        this.evaluators.add(evaluator);
+    }
+
+    public boolean isConflictingVariable(HashMap<String, Variable> variablesMap)
+    {
+        for(Evaluator evaluator : evaluators)
+        {
+            if (evaluator.interpret(variablesMap)==0) return false;
+        }
+        return true;
+    }
 }

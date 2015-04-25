@@ -14,58 +14,56 @@ public class ForwardCheckingSolver {
     CspProblem problem;
     int countOfSolutions;
 
-    public ForwardCheckingSolver(CspProblem problem)
-    {
+    public ForwardCheckingSolver(CspProblem problem) {
         this.problem = problem;
+        this.problem.addEvaluatorsToVariables();
         this.countOfSolutions = 0;
     }
 
-    public int solveAll()
-    {
+    public int solveAll() {
         this.countOfSolutions = 0;
         solveAllRecursion(-1);
         return countOfSolutions;
     }
 
-    public void solveAllRecursion(int lastAssignedIndex)
-    {
+    private boolean isDomainVariableEmpty(int i, HashMap<String, ArrayList<Integer>> currentlyDeleted) {
+        String currentVariableName = problem.variables[i];
+        Variable currentVariable = problem.variablesMap.get(currentVariableName);
+        ArrayList<Integer> incorrectValues = new ArrayList<>();
+
+        while (currentVariable.hasNextDomainValue()) {
+            currentVariable.setNextDomainValue();
+            if (!currentVariable.isConflictingVariable(problem.variablesMap)) {
+                incorrectValues.add(currentVariable.getValue());
+                currentVariable.deleteFromDomain(currentVariable.getValue());
+                currentVariable.setValue(null);
+            }
+        }
+
+        if (incorrectValues.size() > 0) {
+            currentlyDeleted.put(currentVariableName, incorrectValues);
+        }
+        currentVariable.setValue(null);
+        return !currentVariable.hasNextDomainValue();
+    }
+
+    private void solveAllRecursion(int lastAssignedIndex) {
         int nextIndex = lastAssignedIndex + 1;
         String nextVariableName = problem.variables[nextIndex];
         Variable nextVariable = problem.variablesMap.get(nextVariableName);
 
         HashMap<String, ArrayList<Integer>> currentlyDeleted = new HashMap<>();
 
-        for(int i = nextIndex; i < problem.variables.length; i++)
-        {
-            String currentVariableName = problem.variables[i];
-            Variable currentVariable = problem.variablesMap.get(nextVariableName);
-            ArrayList<Integer> incorrectValues = new ArrayList<>();
-
-            while (currentVariable.hasNextDomainValue()) {
-                currentVariable.setNextDomainValue();
-                if (!problem.checkConstraints()) {
-                    incorrectValues.add(currentVariable.getValue());
-                    currentVariable.deleteFromDomain(currentVariable.getValue());
-                    currentVariable.setValue(null);
-                }
-            }
-
-            if (incorrectValues.size() > 0) {
-                currentlyDeleted.put(currentVariableName, incorrectValues);
-            }
-
-            currentVariable.setValue(null);
-            if (!currentVariable.hasNextDomainValue()) {
+        for (int i = nextIndex; i < problem.variables.length; i++) {
+            if (isDomainVariableEmpty(i, currentlyDeleted)) {
                 revertDomainValues(currentlyDeleted);
                 return;
             }
         }
 
-        while(nextVariable.hasNextDomainValue())
-        {
+        while (nextVariable.hasNextDomainValue()) {
             nextVariable.setNextDomainValue();
-                if (problem.variables.length - 1 == nextIndex)
-                {
+            if (problem.variables.length - 1 == nextIndex) {
 ///                   //TODO: spisywanie do pliku
 //                    for(String variable : problem.variables)
 //                    {
@@ -73,26 +71,22 @@ public class ForwardCheckingSolver {
 //                    }
 //                    System.out.println();
 
-                    this.countOfSolutions++;
-                    if(!nextVariable.hasNextDomainValue()) {
-                        nextVariable.setValue(null);
-                        revertDomainValues(currentlyDeleted);
-                        return;
-                    }
+                this.countOfSolutions++;
+                if (!nextVariable.hasNextDomainValue()) {
+                    nextVariable.setValue(null);
+                    revertDomainValues(currentlyDeleted);
+                    return;
                 }
-                else
-                {
-                    solveAllRecursion(nextIndex);
-                }
+            } else {
+                solveAllRecursion(nextIndex);
+            }
         }
         nextVariable.setValue(null);
         revertDomainValues(currentlyDeleted);
     }
 
-    private void revertDomainValues(HashMap<String, ArrayList<Integer>> incorrectValues)
-    {
-        for(Map.Entry<String, ArrayList<Integer>> entry : incorrectValues.entrySet())
-        {
+    private void revertDomainValues(HashMap<String, ArrayList<Integer>> incorrectValues) {
+        for (Map.Entry<String, ArrayList<Integer>> entry : incorrectValues.entrySet()) {
             String variableName = entry.getKey();
             Variable revertedVariable = problem.variablesMap.get(variableName);
 

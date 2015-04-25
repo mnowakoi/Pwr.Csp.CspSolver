@@ -95,6 +95,13 @@ public class Evaluator implements Expression {
         return syntaxTree.interpret(context);
     }
 
+    public void addReferenceToVariable(Map<String, Variable> context)
+    {
+        for(String variableName : syntaxVariables)
+        {
+            context.get(variableName).addEvaluator(this);
+        }
+    }
 
     private boolean isInt(String value)
     {
