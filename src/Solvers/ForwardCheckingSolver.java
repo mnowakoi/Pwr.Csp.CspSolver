@@ -26,6 +26,45 @@ public class ForwardCheckingSolver {
         return countOfSolutions;
     }
 
+    public boolean solveSingle()
+    {
+        return solveSingleRecursion(-1);
+    }
+
+    private boolean solveSingleRecursion(int lastAssignedIndex) {
+        int nextIndex = lastAssignedIndex + 1;
+        String nextVariableName = problem.variables[nextIndex];
+        Variable nextVariable = problem.variablesMap.get(nextVariableName);
+
+        HashMap<String, ArrayList<Integer>> currentlyDeleted = new HashMap<>();
+
+        for (int i = nextIndex; i < problem.variables.length; i++) {
+            if (isDomainVariableEmpty(i, currentlyDeleted)) {
+                revertDomainValues(currentlyDeleted);
+                return false;
+            }
+        }
+
+        while (nextVariable.hasNextDomainValue()) {
+            nextVariable.setNextDomainValue();
+
+            if (problem.variables.length - 1 == nextIndex) {
+                //TODO: spisywanie do pliku
+
+                printSolution();
+                return true;
+            }
+            else {
+                if(solveSingleRecursion(nextIndex)) {
+                    return true;
+                }
+            }
+        }
+        nextVariable.setValue(null);
+        revertDomainValues(currentlyDeleted);
+        return false;
+    }
+
     private boolean isDomainVariableEmpty(int i, HashMap<String, ArrayList<Integer>> currentlyDeleted) {
         String currentVariableName = problem.variables[i];
         Variable currentVariable = problem.variablesMap.get(currentVariableName);
@@ -33,6 +72,7 @@ public class ForwardCheckingSolver {
 
         while (currentVariable.hasNextDomainValue()) {
             currentVariable.setNextDomainValue();
+
             if (!currentVariable.isConflictingVariable(problem.variablesMap)) {
                 incorrectValues.add(currentVariable.getValue());
                 currentVariable.deleteFromDomain(currentVariable.getValue());
@@ -43,6 +83,7 @@ public class ForwardCheckingSolver {
         if (incorrectValues.size() > 0) {
             currentlyDeleted.put(currentVariableName, incorrectValues);
         }
+
         currentVariable.setValue(null);
         return !currentVariable.hasNextDomainValue();
     }
@@ -63,21 +104,13 @@ public class ForwardCheckingSolver {
 
         while (nextVariable.hasNextDomainValue()) {
             nextVariable.setNextDomainValue();
+
             if (problem.variables.length - 1 == nextIndex) {
-///                   //TODO: spisywanie do pliku
-//                    for(String variable : problem.variables)
-//                    {
-//                        System.out.println("Wartosc " + variable + " " + problem.variablesMap.get(variable).getValue());
-//                    }
-//                    System.out.println();
+                //TODO: spisywanie do pliku
 
                 this.countOfSolutions++;
-                if (!nextVariable.hasNextDomainValue()) {
-                    nextVariable.setValue(null);
-                    revertDomainValues(currentlyDeleted);
-                    return;
-                }
-            } else {
+            }
+            else {
                 solveAllRecursion(nextIndex);
             }
         }
@@ -93,5 +126,17 @@ public class ForwardCheckingSolver {
             ArrayList<Integer> valuesToAdd = entry.getValue();
             valuesToAdd.forEach(revertedVariable::addToDomain);
         }
+    }
+
+    private void printSolution() {
+        for (String variable : problem.variables) {
+            System.out.println("Wartosc " + variable + " " + problem.variablesMap.get(variable).getValue());
+        }
+        System.out.println();
+    }
+
+    private void printSolutionIntoFile()
+    {
+
     }
 }

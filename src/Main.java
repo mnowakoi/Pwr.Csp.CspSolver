@@ -18,6 +18,7 @@ public class Main {
          System.out.println("Zaczynamy");
          long start_time = System.nanoTime(); //System.currentTimeMillis();
          int solved = solver.solveAll();
+        // boolean solvable = solver.solveSingle();
          System.out.println("Solutions: " + solved);
          long end_time = System.nanoTime(); //  System.currentTimeMillis();
          double difference = (end_time-start_time)/1e6;
@@ -27,6 +28,7 @@ public class Main {
          System.out.println("Zaczynamy");
          start_time = System.nanoTime(); //System.currentTimeMillis();
          solved = fcsolver.solveAll();
+         // solvable = fcsolver.solveSingle();
          System.out.println("Solutions: " + solved);
          end_time = System.nanoTime(); //  System.currentTimeMillis();
          difference = (end_time-start_time)/1e6;
