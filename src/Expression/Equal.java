@@ -17,7 +17,16 @@ public class Equal implements Expression{
     }
 
     public int interpret(Map<String, Variable> variables)  {
-        if (leftOperand.interpret(variables)==-1 || rightOperand.interpret(variables)==-1) return 1;
         return leftOperand.interpret(variables) == rightOperand.interpret(variables) ? 1 : 0;
+    }
+
+    private boolean areEqual(int left, int right)
+    {
+        return left == right;
+    }
+
+    private boolean areEqual(String left, String right)
+    {
+        return left.equals(right);
     }
 }

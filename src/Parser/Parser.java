@@ -37,8 +37,9 @@ public class Parser {
             variablesMap.get(variable).setDomain(getNextDomain(scanner));
         }
         StackMachine stackMachine = new StackMachine();
-        while(scanner.hasNextLine())
+        while(scanner.hasNextLine() && scanner.hasNext())
         {
+
             Evaluator evaluator = new Evaluator(scanner.nextLine());
             stackMachine.addEvaluator(evaluator);
         }
@@ -71,9 +72,4 @@ public class Parser {
             }
         return domain;
     }
-
-
-    //stack = new StackMachine( {new IntValue(5), new VariableReference("a"), new EqualityOperator()});
-    //5 a =
-    //stack.eval({{a => 5}})
 }

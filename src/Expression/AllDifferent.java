@@ -24,7 +24,7 @@ public class AllDifferent implements Expression {
         HashSet<Integer> values = new HashSet<>();
         for(Expression expression : argsList)
         {
-            values.add(expression.interpret(variables));
+                values.add(expression.interpret(variables));
         }
         return values.size() == count ? 1 : 0;
     }
