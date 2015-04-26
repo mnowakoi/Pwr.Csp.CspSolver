@@ -14,18 +14,22 @@ public class AllDifferent implements Expression {
     private int count;
     private List<Expression> argsList;
 
-    public AllDifferent(int count, ArrayList<Expression> argsList)
-    {
+    public AllDifferent(int count, ArrayList<Expression> argsList) {
         this.count = count;
         this.argsList = argsList;
     }
 
-    public Integer interpret(Map<String, Variable> variables)  {
+    public Integer interpret(Map<String, Variable> variables) {
+        int countNotNull = count;
         HashSet<Integer> values = new HashSet<>();
-        for(Expression expression : argsList)
-        {
-                values.add(expression.interpret(variables));
+        for (Expression expression : argsList) {
+            Integer leftValue = expression.interpret(variables);
+            if (leftValue != null) {
+                values.add(leftValue);
+            } else {
+                countNotNull--;
+            }
         }
-        return values.size() == count ? 1 : 0;
+        return values.size() == countNotNull ? 1 : 0;
     }
 }

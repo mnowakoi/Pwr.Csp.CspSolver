@@ -88,11 +88,11 @@ public class Evaluator implements Expression {
     {
       //  if(!isDiffType)
       //  {
-            for(String variableName : syntaxVariables)
-            {
-                if(context.get(variableName).getValue() == null)
-                    return 1;
-            }
+//            for(String variableName : syntaxVariables)
+//            {
+//                if(context.get(variableName).getValue() == null)
+//                    return 1;
+//            }
       //  }
 
         return syntaxTree.interpret(context);

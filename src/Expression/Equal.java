@@ -17,6 +17,8 @@ public class Equal implements Expression {
     }
 
     public Integer interpret(Map<String, Variable> variables)  {
-        return leftOperand.interpret(variables) == rightOperand.interpret(variables) ? 1 : 0;
+        Integer left = leftOperand.interpret(variables);
+        Integer right = rightOperand.interpret(variables);
+        return left == null || right == null || left == right ? 1 : 0;
     }
 }

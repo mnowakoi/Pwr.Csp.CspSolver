@@ -14,7 +14,10 @@ public class Absolute implements Expression {
     }
 
     public Integer interpret(Map<String, Variable> variables)  {
-        int interpretedValue = leftOperand.interpret(variables);
-        return interpretedValue > 0 ? interpretedValue : -interpretedValue;
+        Integer interpretedValue = leftOperand.interpret(variables);
+        if(interpretedValue!=null) {
+            interpretedValue = interpretedValue > 0 ? interpretedValue : -interpretedValue;
+        }
+        return interpretedValue;
     }
 }

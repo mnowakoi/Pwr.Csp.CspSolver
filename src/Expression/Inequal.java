@@ -17,7 +17,8 @@ public class Inequal implements Expression {
     }
 
     public Integer interpret(Map<String, Variable> variables)  {
-        if (leftOperand.interpret(variables)==-1 || rightOperand.interpret(variables)==-1) return 1;
-        return leftOperand.interpret(variables) != rightOperand.interpret(variables) ? 1 : 0;
+        Integer left = leftOperand.interpret(variables);
+        Integer right = rightOperand.interpret(variables);
+        return left == null || right == null || left != right ? 1 : 0;
     }
 }

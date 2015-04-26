@@ -38,13 +38,13 @@ public class Main {
 
          ISolver solverFC = problem.resolverFCSolver();
 
-//         System.out.println("FC Solve All:");
-//         long start_timeFCAll = System.nanoTime();
-//         int solvedFCAll = solverFC.solveAll();
-//         System.out.println("Solutions: " + solvedFCAll);
-//         long end_timeFCAll = System.nanoTime();
-//         double differenceFCAll = (end_timeFCAll-start_timeFCAll)/1e6;
-//         System.out.println("Time it took: " + differenceFCAll);
+         System.out.println("FC Solve All:");
+         long start_timeFCAll = System.nanoTime();
+         int solvedFCAll = solverFC.solveAll();
+         System.out.println("Solutions: " + solvedFCAll);
+         long end_timeFCAll = System.nanoTime();
+         double differenceFCAll = (end_timeFCAll-start_timeFCAll)/1e6;
+         System.out.println("Time it took: " + differenceFCAll);
 
 //         System.out.println("FC Solve Single:");
 //         long start_timeFCSingle = System.nanoTime();
