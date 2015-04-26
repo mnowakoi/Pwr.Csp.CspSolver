@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Monis on 4/17/15.
  */
-public class Variable {
+public class Variable extends IVariable {
     private String name;
     private List<Integer> domain;
     private Integer value;

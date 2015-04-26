@@ -1,16 +1,17 @@
 package Solvers;
 
-import CspProblem.CspProblem;
-import CspProblem.Variable;
+
+import CspProblem.StringCspProblem;
+import CspProblem.StringVariable;
 
 /**
- * Created by Monis on 4/19/15.
+ * Created by Monis on 4/26/15.
  */
-public class BacktrackSolver implements ISolver {
-    CspProblem problem;
+public class BacktrackStringSolver implements ISolver{
+    StringCspProblem problem;
     int countOfSolutions;
 
-    public BacktrackSolver(CspProblem problem) {
+    public BacktrackStringSolver(StringCspProblem problem) {
         this.problem = problem;
         this.countOfSolutions = 0;
     }
@@ -25,10 +26,10 @@ public class BacktrackSolver implements ISolver {
         return countOfSolutions;
     }
 
-    private boolean solveSingleRecursion(int lastAssignedIndex) {
+    public boolean solveSingleRecursion(int lastAssignedIndex) {
         int nextIndex = lastAssignedIndex + 1;
         String nextVariableName = problem.variables[nextIndex];
-        Variable nextVariable = problem.variablesMap.get(nextVariableName);
+        StringVariable nextVariable = problem.variablesMap.get(nextVariableName);
 
         while (nextVariable.hasNextDomainValue()) {
             nextVariable.setNextDomainValue();
@@ -50,10 +51,10 @@ public class BacktrackSolver implements ISolver {
         return false;
     }
 
-    private void solveAllRecursion(int lastAssignedIndex) {
+    public void solveAllRecursion(int lastAssignedIndex) {
         int nextIndex = lastAssignedIndex + 1;
         String nextVariableName = problem.variables[nextIndex];
-        Variable nextVariable = problem.variablesMap.get(nextVariableName);
+        StringVariable nextVariable = problem.variablesMap.get(nextVariableName);
 
         while (nextVariable.hasNextDomainValue()) {
             nextVariable.setNextDomainValue();

@@ -1,7 +1,6 @@
-import CspProblem.CspProblem;
+import CspProblem.IProblem;
 import Parser.Parser;
-import Solvers.BacktrackSolver;
-import Solvers.ForwardCheckingSolver;
+import Solvers.ISolver;
 
 import java.io.FileNotFoundException;
 
@@ -12,17 +11,22 @@ public class Main {
      public static void main(String[] args) throws FileNotFoundException
      {
          Parser parser = new Parser("Hetmany.Txt");
-         CspProblem problem = parser.parseProblem();
+         IProblem problem = parser.parseProblem();
 
-         BacktrackSolver solverBT = new BacktrackSolver(problem);
+//         String[] table = new String[0];
+//         CspProblem.IProblem problem1 = new CspProblem.CspProblem(new String[0],new HashMap<>(),new StackMachine());
+//         problem1.getVariablesMap();
+//
 
-//         System.out.println("BT Solve All:");
-//         long start_timeBTAll = System.nanoTime();
-//         int solvedBTAll = solverBT.solveAll();
-//         System.out.println("Solutions: " + solvedBTAll);
-//         long end_timeBTAll = System.nanoTime();
-//         double differenceBTAll = (end_timeBTAll-start_timeBTAll)/1e6;
-//         System.out.println("Time it took: " + differenceBTAll);
+         ISolver solverBT = problem.resolveBTSolver();
+
+         System.out.println("BT Solve All:");
+         long start_timeBTAll = System.nanoTime();
+         int solvedBTAll = solverBT.solveAll();
+         System.out.println("Solutions: " + solvedBTAll);
+         long end_timeBTAll = System.nanoTime();
+         double differenceBTAll = (end_timeBTAll-start_timeBTAll)/1e6;
+         System.out.println("Time it took: " + differenceBTAll);
 
 //         System.out.println("BT Solve Single:");
 //         long start_timeBTSingle = System.nanoTime();
@@ -32,15 +36,15 @@ public class Main {
 //         double differenceBTSingle = (end_timeBTSingle-start_timeBTSingle)/1e6;
 //         System.out.println("Time it took: " + differenceBTSingle);
 
-         ForwardCheckingSolver solverFC = new ForwardCheckingSolver(problem);
+         ISolver solverFC = problem.resolverFCSolver();
 
-         System.out.println("FC Solve All:");
-         long start_timeFCAll = System.nanoTime();
-         int solvedFCAll = solverFC.solveAll();
-         System.out.println("Solutions: " + solvedFCAll);
-         long end_timeFCAll = System.nanoTime();
-         double differenceFCAll = (end_timeFCAll-start_timeFCAll)/1e6;
-         System.out.println("Time it took: " + differenceFCAll);
+//         System.out.println("FC Solve All:");
+//         long start_timeFCAll = System.nanoTime();
+//         int solvedFCAll = solverFC.solveAll();
+//         System.out.println("Solutions: " + solvedFCAll);
+//         long end_timeFCAll = System.nanoTime();
+//         double differenceFCAll = (end_timeFCAll-start_timeFCAll)/1e6;
+//         System.out.println("Time it took: " + differenceFCAll);
 
 //         System.out.println("FC Solve Single:");
 //         long start_timeFCSingle = System.nanoTime();

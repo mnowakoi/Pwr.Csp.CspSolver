@@ -1,13 +1,15 @@
 package Parser;
 
-import CspProblem.CspProblem;
-import CspProblem.Variable;
+import CspProblem.*;
 import Expression.Evaluator;
 import Expression.StackMachine;
+import StringExpression.StackMachineString;
+import StringExpression.StringEvaluator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -27,23 +29,34 @@ public class Parser {
         this.path = this.path + fileName;
     }
 
-    public CspProblem parseProblem() throws FileNotFoundException
+    public IProblem parseProblem() throws FileNotFoundException
     {
         Scanner scanner = new Scanner(new File(path));
         String[] variables = scanner.nextLine().split(" ");
-        HashMap<String, Variable> variablesMap = createVariablesMap(variables);
-        for(String variable : variables)
-        {
-            variablesMap.get(variable).setDomain(getNextDomain(scanner));
-        }
-        StackMachine stackMachine = new StackMachine();
-        while(scanner.hasNextLine() && scanner.hasNext())
-        {
+        if(scanner.hasNextInt()) {
+            HashMap<String, Variable> variablesMap = createVariablesMap(variables);
+            for (String variable : variables) {
+                variablesMap.get(variable).setDomain(getNextDomain(scanner));
+            }
+            StackMachine stackMachine = new StackMachine();
+            while (scanner.hasNextLine() && scanner.hasNext()) {
 
-            Evaluator evaluator = new Evaluator(scanner.nextLine());
+                Evaluator evaluator = new Evaluator(scanner.nextLine());
+                stackMachine.addEvaluator(evaluator);
+            }
+            return new CspProblem(variables, variablesMap, stackMachine);
+        }
+        HashMap<String, StringVariable> variablesMap = createStringVariablesMap(variables);
+        for (String variable : variables) {
+            variablesMap.get(variable).setDomain(getNextStringDomain(scanner));
+        }
+        StackMachineString stackMachine = new StackMachineString();
+        while (scanner.hasNextLine() && scanner.hasNext()) {
+
+            StringEvaluator evaluator = new StringEvaluator(scanner.nextLine(), Arrays.asList(variables));
             stackMachine.addEvaluator(evaluator);
         }
-        return new CspProblem(variables, variablesMap, stackMachine);
+        return new StringCspProblem(variables, variablesMap, stackMachine);
     }
 
     private HashMap<String, Variable> createVariablesMap(String[] variableNames)
@@ -52,6 +65,16 @@ public class Parser {
         for(String name : variableNames)
         {
             variablesMap.put(name, new Variable(name));
+        }
+        return variablesMap;
+    }
+
+    private HashMap<String, StringVariable> createStringVariablesMap(String[] variableNames)
+    {
+        HashMap<String, StringVariable> variablesMap = new HashMap<>();
+        for(String name : variableNames)
+        {
+            variablesMap.put(name, new StringVariable(name));
         }
         return variablesMap;
     }
@@ -70,6 +93,18 @@ public class Parser {
                 {
                 }
             }
+        return domain;
+    }
+
+    private ArrayList<String> getNextStringDomain(Scanner scanner)
+    {
+        ArrayList<String> domain = new ArrayList<>();
+        String domainLine = scanner.nextLine();
+        String[] domainElements = domainLine.split(" ");
+        for(String domainElem : domainElements)
+        {
+            domain.add(domainElem);
+        }
         return domain;
     }
 }

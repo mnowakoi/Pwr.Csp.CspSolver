@@ -1,7 +1,7 @@
 package Solvers;
 
-import CspProblem.CspProblem;
-import CspProblem.Variable;
+import CspProblem.StringCspProblem;
+import CspProblem.StringVariable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,11 +10,11 @@ import java.util.Map;
 /**
  * Created by Monis on 4/24/15.
  */
-public class ForwardCheckingSolver implements ISolver {
-    CspProblem problem;
+public class ForwardStringSolver implements ISolver {
+    StringCspProblem problem;
     int countOfSolutions;
 
-    public ForwardCheckingSolver(CspProblem problem) {
+    public ForwardStringSolver(StringCspProblem problem) {
         this.problem = problem;
         this.problem.addEvaluatorsToVariables();
         this.countOfSolutions = 0;
@@ -34,9 +34,9 @@ public class ForwardCheckingSolver implements ISolver {
     private boolean solveSingleRecursion(int lastAssignedIndex) {
         int nextIndex = lastAssignedIndex + 1;
         String nextVariableName = problem.variables[nextIndex];
-        Variable nextVariable = problem.variablesMap.get(nextVariableName);
+        StringVariable nextVariable = problem.variablesMap.get(nextVariableName);
 
-        HashMap<String, ArrayList<Integer>> currentlyDeleted = new HashMap<>();
+        HashMap<String, ArrayList<String>> currentlyDeleted = new HashMap<>();
 
         for (int i = nextIndex; i < problem.variables.length; i++) {
             if (isDomainVariableEmpty(i, currentlyDeleted)) {
@@ -65,10 +65,10 @@ public class ForwardCheckingSolver implements ISolver {
         return false;
     }
 
-    private boolean isDomainVariableEmpty(int i, HashMap<String, ArrayList<Integer>> currentlyDeleted) {
+    private boolean isDomainVariableEmpty(int i, HashMap<String, ArrayList<String>> currentlyDeleted) {
         String currentVariableName = problem.variables[i];
-        Variable currentVariable = problem.variablesMap.get(currentVariableName);
-        ArrayList<Integer> incorrectValues = new ArrayList<>();
+        StringVariable currentVariable = problem.variablesMap.get(currentVariableName);
+        ArrayList<String> incorrectValues = new ArrayList<>();
 
         while (currentVariable.hasNextDomainValue()) {
             currentVariable.setNextDomainValue();
@@ -91,9 +91,9 @@ public class ForwardCheckingSolver implements ISolver {
     private void solveAllRecursion(int lastAssignedIndex) {
         int nextIndex = lastAssignedIndex + 1;
         String nextVariableName = problem.variables[nextIndex];
-        Variable nextVariable = problem.variablesMap.get(nextVariableName);
+        StringVariable nextVariable = problem.variablesMap.get(nextVariableName);
 
-        HashMap<String, ArrayList<Integer>> currentlyDeleted = new HashMap<>();
+        HashMap<String, ArrayList<String>> currentlyDeleted = new HashMap<>();
 
         for (int i = nextIndex; i < problem.variables.length; i++) {
             if (isDomainVariableEmpty(i, currentlyDeleted)) {
@@ -118,12 +118,12 @@ public class ForwardCheckingSolver implements ISolver {
         revertDomainValues(currentlyDeleted);
     }
 
-    private void revertDomainValues(HashMap<String, ArrayList<Integer>> incorrectValues) {
-        for (Map.Entry<String, ArrayList<Integer>> entry : incorrectValues.entrySet()) {
+    private void revertDomainValues(HashMap<String, ArrayList<String>> incorrectValues) {
+        for (Map.Entry<String, ArrayList<String>> entry : incorrectValues.entrySet()) {
             String variableName = entry.getKey();
-            Variable revertedVariable = problem.variablesMap.get(variableName);
+            StringVariable revertedVariable = problem.variablesMap.get(variableName);
 
-            ArrayList<Integer> valuesToAdd = entry.getValue();
+            ArrayList<String> valuesToAdd = entry.getValue();
             valuesToAdd.forEach(revertedVariable::addToDomain);
         }
     }
