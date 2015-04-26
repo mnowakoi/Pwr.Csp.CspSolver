@@ -12,8 +12,8 @@ public class Main {
      {
          //Parser parser = new Parser("Hetmany.Txt");
          //Parser parser = new Parser("BasicProblem.Txt");
-         Parser parser = new Parser("Sudoku.Txt");
-         //Parser parser = new Parser("Sudoku3d.Txt");
+         //Parser parser = new Parser("Sudoku.Txt");
+         Parser parser = new Parser("Sudoku3d.Txt");
          IProblem problem = parser.parseProblem();
 
 //         String[] table = new String[0];
@@ -23,13 +23,13 @@ public class Main {
 
          ISolver solverBT = problem.resolveBTSolver();
 
-         System.out.println("BT Solve All:");
-         long start_timeBTAll = System.nanoTime();
-         int solvedBTAll = solverBT.solveAll();
-         System.out.println("Solutions: " + solvedBTAll);
-         long end_timeBTAll = System.nanoTime();
-         double differenceBTAll = (end_timeBTAll-start_timeBTAll)/1e6;
-         System.out.println("Time it took: " + differenceBTAll);
+//         System.out.println("BT Solve All:");
+//         long start_timeBTAll = System.nanoTime();
+//         int solvedBTAll = solverBT.solveAll();
+//         System.out.println("Solutions: " + solvedBTAll);
+//         long end_timeBTAll = System.nanoTime();
+//         double differenceBTAll = (end_timeBTAll-start_timeBTAll)/1e6;
+//         System.out.println("Time it took: " + differenceBTAll);
 
 //         System.out.println("BT Solve Single:");
 //         long start_timeBTSingle = System.nanoTime();

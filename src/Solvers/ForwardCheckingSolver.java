@@ -3,6 +3,10 @@ package Solvers;
 import CspProblem.CspProblem;
 import CspProblem.Variable;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,14 +17,18 @@ import java.util.Map;
 public class ForwardCheckingSolver implements ISolver {
     CspProblem problem;
     int countOfSolutions;
+    String outputPath;
+    final String path = "/Users/Monis/IdeaProjects/Pwr.Csp.CspSolver/src/ProblemSamples/";
 
     public ForwardCheckingSolver(CspProblem problem) {
         this.problem = problem;
         this.problem.addEvaluatorsToVariables();
         this.countOfSolutions = 0;
+        this.outputPath = path + "Solutions.Txt";
     }
 
     public int solveAll() {
+        this.clearFile();
         this.countOfSolutions = 0;
         solveAllRecursion(-1);
         return countOfSolutions;
@@ -108,6 +116,7 @@ public class ForwardCheckingSolver implements ISolver {
             if (problem.variables.length - 1 == nextIndex) {
                 //TODO: spisywanie do pliku
 
+                printSolutionIntoFile();
                 this.countOfSolutions++;
             }
             else {
@@ -130,13 +139,36 @@ public class ForwardCheckingSolver implements ISolver {
 
     private void printSolution() {
         for (String variable : problem.variables) {
-            System.out.println("Wartosc " + variable + " " + problem.variablesMap.get(variable).getValue());
+            System.out.print(variable + "=" + problem.variablesMap.get(variable).getValue() + " ");
         }
-        System.out.println();
+        System.out.println("\n");
     }
 
-    private void printSolutionIntoFile()
+    protected void printSolutionIntoFile()
     {
+        StringBuffer output = new StringBuffer();
+        for (String variable : problem.variables) {
+            output.append(variable).append("=").append(problem.variablesMap.get(variable).getValue()).append(" ");
+        }
+        output.append("\n\n");
+        try {
+            FileWriter fileOut = new FileWriter(outputPath, true);
+            fileOut.write(output.toString());
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    protected void clearFile()
+    {
+        try {
+            PrintWriter fileOut = new PrintWriter(outputPath);
+            StringBuffer output = new StringBuffer();
+            fileOut.println(output.toString());
+            fileOut.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
