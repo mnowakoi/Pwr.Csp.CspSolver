@@ -17,6 +17,7 @@ public class Extract implements StringExpression {
     }
 
     public String interpretString(Map<String, StringVariable> variables)  {
-        return Character.toString(leftOperand.interpretString(variables).charAt(index));
+        String left = leftOperand.interpretString(variables);
+        return left == null ? null : Character.toString(left.charAt(index));
     }
 }

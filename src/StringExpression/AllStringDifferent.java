@@ -21,11 +21,17 @@ public class AllStringDifferent implements StringExpression {
     }
 
     public String interpretString(Map<String, StringVariable> variables)  {
+        int countNotNull = count;
         HashSet<String> values = new HashSet<>();
         for(StringExpression expression : argsList)
         {
-            values.add(expression.interpretString(variables));
+            String leftValue = expression.interpretString(variables);
+            if (leftValue != null) {
+                values.add(leftValue);
+            } else {
+                countNotNull--;
+            }
         }
-        return values.size() == count ? "true" : "false";
+        return values.size() == countNotNull ? "true" : "false";
     }
 }

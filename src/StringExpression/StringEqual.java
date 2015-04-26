@@ -18,6 +18,8 @@ public class StringEqual implements StringExpression{
 
     @Override
     public String interpretString(Map<String, StringVariable> variables)  {
-        return leftOperand.interpretString(variables).equals(rightOperand.interpretString(variables)) ? "true" : "false";
+        String left = leftOperand.interpretString(variables);
+        String right = rightOperand.interpretString(variables);
+        return left == null || right == null || left.equals(right) ? "true" : "false";
     }
 }

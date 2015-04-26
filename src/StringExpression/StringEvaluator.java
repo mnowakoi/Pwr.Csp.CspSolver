@@ -83,12 +83,6 @@ public class StringEvaluator implements StringExpression {
 
     @Override
     public String interpretString(Map<String, StringVariable> variables) {
-        for(String variableName : syntaxVariables)
-        {
-            if(variables.get(variableName).getValue() == null)
-                return "true";
-        }
-
         return syntaxTree.interpretString(variables);
     }
 }

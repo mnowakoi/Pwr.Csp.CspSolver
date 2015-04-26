@@ -17,6 +17,8 @@ public class StringInequal implements StringExpression{
     }
 
     public String interpretString(Map<String, StringVariable> variables)  {
-        return leftOperand.interpretString(variables).equals(rightOperand.interpretString(variables)) ? "false" : "true";
+        String left = leftOperand.interpretString(variables);
+        String right = rightOperand.interpretString(variables);
+        return  left == null || right == null || !left.equals(right) ? "true" : "false";
     }
 }

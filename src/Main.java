@@ -10,7 +10,10 @@ import java.io.FileNotFoundException;
 public class Main {
      public static void main(String[] args) throws FileNotFoundException
      {
-         Parser parser = new Parser("Hetmany.Txt");
+         //Parser parser = new Parser("Hetmany.Txt");
+         //Parser parser = new Parser("BasicProblem.Txt");
+         Parser parser = new Parser("Sudoku.Txt");
+         //Parser parser = new Parser("Sudoku3d.Txt");
          IProblem problem = parser.parseProblem();
 
 //         String[] table = new String[0];
@@ -36,6 +39,7 @@ public class Main {
 //         double differenceBTSingle = (end_timeBTSingle-start_timeBTSingle)/1e6;
 //         System.out.println("Time it took: " + differenceBTSingle);
 
+         problem = parser.parseProblem();
          ISolver solverFC = problem.resolverFCSolver();
 
          System.out.println("FC Solve All:");
